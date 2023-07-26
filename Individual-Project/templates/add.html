@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add book</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styleA.css') }}">
+</head>
+<body>
+    <!-- <div class="header"></div> -->
+    <form method="POST" action="/add">
+        <!-- Heading -->
+        <h3>
+            Add a book
+        </h3>
+
+        <!-- Subheading -->
+        <p >
+            *Please fill up the information below to add the book.*
+        </p>
+
+        <!-- pic -->
+        <div>
+            <label>picture address*</label>
+            <div>
+                <input type="text"  name="picture" id="pictureStr" required>   
+            </div>
+        </div>
+
+        <!-- link -->
+        <div>
+            <label>link/url*</label>
+            <div>
+                <input type="text"  name="link" id="linkStr" required>
+            </div>
+        </div>
+
+        <!-- category -->
+        <div>
+            <label>category*</label>
+            <div>
+                <input type="text"  name="category" id="categoryStr" required>   
+            </div>
+        </div>
+
+        <p></p>
+
+        <!-- Button -->
+        <div>
+            <input type="submit"/>
+        </div>
+        <p></p>
+        <a href="/fantacy"><button type="button">home</button></a>
+    </form>
+    <br>
+    
+</body>
+</html>
