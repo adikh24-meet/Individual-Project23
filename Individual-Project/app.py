@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask import session as login_session
 import pyrebase
+import os
+
+UPLOAD_FOLDER = 'static/images'
+ALLOWED_EXTENSIONS = ['png', 'jpg', 'jpeg']
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'super-secret-key'
@@ -16,6 +20,16 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database()
 #Code goes below here
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+def upload_file(file):
+    if request.method == 'POST':
+        if file and allowed_file(file.filename):
+            filename = file.filename
+            file.save(UPLOAD_FOLDER + "/" + filename)
 
 @app.route('/', methods=['GET', 'POST'])
 def signup():
@@ -65,30 +79,30 @@ def add():
     category = None
     catpics = {}
     if request.method == 'POST':
-        picture = request.form['picture']
+        picture = request.files['picture']
         link = request.form['link']
         category = request.form['category']
+        upload_file(picture)
         try:
-            pic = {"picture": picture, "link": link ,"category" : category}
+            pic = {"picture": picture.filename, "link": link ,"category" : category}
             db.child("pics").child(category).set(pic)
             return redirect(url_for(category))
         except:
              return "adding failed"
     else:
-        catpics_ordered = db.child("pics").child(category).get().val() if category else {}
-        catpics = dict(catpics_ordered) 
+        catpics= db.child("pics").child(category).get().val() 
     return render_template("add.html", catpics= catpics,category=category)
 
 @app.route('/fantacy')
 def fantacy():
-    catpics = db.child("pics").child('fantacy').get().val() 
-
+    catpics = db.child("pics").get().val() 
+    print(catpics)
     return render_template('fan.html',catpics=catpics)
 
 @app.route('/horror')
 def horror():
-    catpics = db.child("pics").child('horror').get().val() 
-    print(catpics)
+    catpics = db.child("pics").get().val() 
+    print("catpics")
     return render_template('hor.html',catpics=catpics)
 
 @app.route('/comedy')

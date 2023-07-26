@@ -86,15 +86,11 @@
     <tr>
       {% for catpic in catpics%}
       <td>
-        <a id="l7"
-          href="{{catpic.link}}">
-          <img id="p7" src="{{catpic.picture}}">
+          <img id="p7" src="static/images/{{catpics[catpic]['picture']}}">
       </td>
       {% endfor %}
     </tr>
   </table>
-  </table>
-
 
 </body>
 

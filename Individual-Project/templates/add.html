@@ -7,7 +7,7 @@
 </head>
 <body>
     <!-- <div class="header"></div> -->
-    <form method="POST" action="/add">
+    <form method="POST" action="/add" enctype="multipart/form-data">
         <!-- Heading -->
         <h3>
             Add a book
@@ -22,7 +22,7 @@
         <div>
             <label>picture address*</label>
             <div>
-                <input type="text"  name="picture" id="pictureStr" required>   
+                <input type="file" name="picture"  placeholder="insert image" required>            
             </div>
         </div>
 
